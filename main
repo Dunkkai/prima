@@ -1,0 +1,44 @@
+def possible_ways(start_nodes: list, g: tuple,sum_of_weight):
+
+    min_from_all = float("inf") #сравниваем для минимального веса
+    ishod = -1
+    zahod = -1
+    for i in range(len(g)):
+        for p in g[i]:
+            if ((i in nodes and p[0] in nodes) or (len(nodes)!=0 and (i not in nodes and p[0] not in nodes))) : #если i не в вершинах и p[0] не в вершинах, или длина вершин не нулевая и и не в вершинах и p[0] не в вершинах
+                pass
+            else:
+                if p[1] < min_from_all: #если p[1] меньше чем наше значение, то выбираем новое значение
+                    ishod = i
+                    zahod = p[0]
+                    min_from_all = p[1]
+    sum_of_weight+=min_from_all
+    #print(ishod,zahod)
+    if ((ishod in nodes) != (zahod in nodes)) or (len(nodes)==0 and (ishod not in nodes and zahod not in nodes)) :
+        nodes.append(ishod)
+        nodes.append(zahod)
+
+    return sum_of_weight
+
+
+g = (
+    ((1,4),(2,3),(3,5)), #вершина 0, связь с 1 с весом 4 и т.д.
+    ((0,4),(2,2),(4,1)), #вершина 1
+    ((0,3),(1,2),(3,1),(4,1),(5,2)), #v 2
+    ((0,5),(2,1),(6,3)), #v3
+    ((1,1),(2,1),(5,2),(7,6)), #4
+    ((2,2),(4,2),(6,1),(7,5),(8,2)), #5
+    ((3,3),(5,1),(8,1),(9,3)), #6
+    ((4,6),(5,5),(8,2),(10,5)), #7
+    ((5,2),(6,1),(7,2),(9,1),(10,4)), #8
+    ((6,3),(8,1),(10,3)), #9
+    ((7,5),(8,4),(9,3)) #10
+)
+sum_of_weight = 0
+
+nodes = []
+j = 0
+for i in range(10):
+    sum_of_weight = possible_ways(nodes, g,sum_of_weight)
+    print(f"cоединяем {nodes[j]} и {nodes[j+1]}, cуммарный вес: {sum_of_weight}")
+    j += 2
